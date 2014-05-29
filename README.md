@@ -47,3 +47,8 @@ Totals
 ```
 
 How cool is that??
+
+### Thanks
+
+Special thanks to [@joshearl](https://github.com/joshearl) for his awesome book [Writing Sublime Plugins](https://leanpub.com/writing-sublime-plugins) and to [Audrey Roy](https://github.com/audreyr) for [binaryornot](https://github.com/audreyr/binaryornot), it saved me a lot of time.
+
