@@ -8,7 +8,7 @@ I hope you you find this plugin helpful.
 
 ### Instalation
 
-You can [download it](https://github.com/pererinha/NotThatUselessProjectReport/archive/master.zip) unzip and copy the files onto your packages folder.
+You can [download it](https://github.com/pererinha/NotThatUselessProjectReport/archive/master.zip) unzip and copy the files onto your packages folder. And don't forget to rename do folder from `NotThatUselessProjectReport-master` to `NotThatUselessProjectReport`
 
 I'm waiting the Package Control team approval.
 
