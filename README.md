@@ -7,9 +7,12 @@ I know it is not the most useful information you can have about your project, bu
 I hope you you find this plugin helpful.
 
 ### Instalation
+
 You can [download it](https://github.com/pererinha/NotThatUselessProjectReport/archive/master.zip) unzip and copy the files onto your packages folder.
 
 I'm waiting the Package Control team approval.
+
+**It is currently working just for Sublime 3**
 
 ### Usage
 * On Mac **Command + Shift + U**
