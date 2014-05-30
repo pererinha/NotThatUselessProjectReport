@@ -8,9 +8,10 @@ I hope you you find this plugin helpful.
 
 ### Instalation
 
-You can [download it](https://github.com/pererinha/NotThatUselessProjectReport/archive/master.zip) unzip and copy the files onto your packages folder. And don't forget to rename do folder from `NotThatUselessProjectReport-master` to `NotThatUselessProjectReport`
+For manual installation, run the following script in the Sublime Text terminal ```(ctrl+`)``` which utilizes ```git clone```.
 
-I'm waiting the Package Control team approval.
+`import os; path=sublime.packages_path(); (os.makedirs(path) if not os.path.exists(path) else None); window.run_command('exec', {'cmd': ['git', 'clone', 'https://github.com/pererinha/NotThatUselessProjectReport', 'NotThatUselessProjectReport'], 'working_dir': path})`
+
 
 **It is currently working just for Sublime 3**
 
