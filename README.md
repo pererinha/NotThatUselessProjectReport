@@ -10,7 +10,9 @@ I hope you you find this plugin helpful.
 
 For manual installation, run the following script in the Sublime Text terminal ```(ctrl+`)``` which utilizes ```git clone```.
 
-`import os; path=sublime.packages_path(); (os.makedirs(path) if not os.path.exists(path) else None); window.run_command('exec', {'cmd': ['git', 'clone', 'https://github.com/pererinha/NotThatUselessProjectReport', 'NotThatUselessProjectReport'], 'working_dir': path})`
+```python
+import os; path=sublime.packages_path(); (os.makedirs(path) if not os.path.exists(path) else None); window.run_command('exec', {'cmd': ['git', 'clone', 'https://github.com/pererinha/NotThatUselessProjectReport', 'NotThatUselessProjectReport'], 'working_dir': path})
+```
 
 
 **It is currently working just for Sublime 3**
