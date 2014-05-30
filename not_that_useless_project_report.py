@@ -155,40 +155,47 @@ class Miner(threading.Thread):
       directories = self.path
       for directory in directories:
         for path, subdirs, files in os.walk(directory):
-          # ignore hidden folders
-          for sub in subdirs:
-            if sub.startswith('.'):
-              subdirs.remove(sub)
-
           for name in files:
-            # ignore hidden files
-            if not name.startswith('.'):
-              filename = os.path.join(path, name)
-              if os.path.exists(filename):
-                if self.should_go( filename ):
-                  extension = os.path.splitext(filename)[1];
-                  lines = self.count_lines(filename)
-                  if extension in result:
-                    result[extension]['files'] += 1
-                    result[extension]['lines'] += lines['lines']
-                    result[extension]['blank'] += lines['blank']
-                  else:
-                    result[extension] = dict()
-                    result[extension]['files'] = 1
-                    result[extension]['lines'] = lines['lines']
-                    result[extension]['blank'] = lines['blank']
+            filename = os.path.join(path, name)
+            if self.should_go(filename):
+              extension = os.path.splitext(filename)[1];
+              lines = self.count_lines(filename)
+              if extension in result:
+                result[extension]['files'] += 1
+                result[extension]['lines'] += lines['lines']
+                result[extension]['blank'] += lines['blank']
+              else:
+                result[extension] = dict()
+                result[extension]['files'] = 1
+                result[extension]['lines'] = lines['lines']
+                result[extension]['blank'] = lines['blank']
       return result
 
-    def should_go( self, path ):
-      return not is_binary( path ) and not os.path.islink( path )
+    def should_go( self, filename ):
+      should_go = True
+      ignore_patterns = ['/.']
+      should_go = True
+      for pattern in ignore_patterns:
+        if pattern in filename:
+          should_go = False
+      if should_go and os.path.exists(filename) and not is_binary( filename ) and not os.path.islink( filename ):
+        return True
+      else:
+        return False
 
     def count_lines(self, filename):
       lines = dict()
       lines[ 'lines' ] = 0
       lines[ 'blank' ] = 0
-      with codecs.open(filename, "r", encoding="utf-8") as f:
-        for line in f:
-          lines[ 'lines' ] += 1
-          if not line.strip():
-            lines[ 'blank' ] += 1
-      return lines
+      try:   
+        with codecs.open(filename, "r", encoding="utf-8") as f:
+          for line in f:
+            lines[ 'lines' ] += 1
+            if line in ['\n', '\r\n']:
+              lines[ 'blank' ] += 1
+      except (IOError,UnicodeDecodeError,SyntaxError):
+        coooool = True
+      else:
+        bad_bad_guy = True
+      finally:
+        return lines
