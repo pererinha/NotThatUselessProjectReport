@@ -6,7 +6,7 @@ I know it is not the most useful information you can have about your project, bu
 
 I hope you you find this plugin helpful.
 
-### Instalation
+### Installation
 
 For manual installation, run the following script in the Sublime Text terminal ```(ctrl+`)``` which utilizes ```git clone```.
 
