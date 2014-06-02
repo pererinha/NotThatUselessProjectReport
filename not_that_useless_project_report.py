@@ -3,7 +3,6 @@ import os
 import sys
 import codecs
 import threading
-from NotThatUselessProjectReport.binaryornot.check import is_binary
 
 # window.run_command('not_that_useless_project_report')
 
@@ -14,7 +13,7 @@ class NotThatUselessProjectReportCommand(sublime_plugin.WindowCommand):
 
     def run(self):
         miner = Miner(self.window.folders())
-        miner.start() 
+        miner.start()
         self.handle_key_miner(miner)
 
     def handle_key_miner(self, thread, i=0, direction=1):
@@ -67,7 +66,7 @@ class Writer:
         report += self.nl()
 
         report += self.subtitle('Summary')
-        
+
         report += divider
         report += self.col('Type', highest)
         report += self.col('Files', highest)
@@ -75,7 +74,7 @@ class Writer:
         report += self.col('Blank lines', highest)
         report += self.col_end()
         report += divider
-        
+
         for key in sorted(results):
           files = results[key]['files']
           lines = results[key]['lines']
@@ -127,7 +126,7 @@ class Writer:
       string = subtitle + self.nl()
       string += ('-'*subtitle.__len__()) + self.nl()
       return string
-    
+
     def nl(self):
       return '\n'
 
@@ -149,7 +148,7 @@ class Miner(threading.Thread):
 
     def run(self):
         self.result = self.mine()
-    
+
     def mine(self):
       result = dict()
       directories = self.path
@@ -187,7 +186,7 @@ class Miner(threading.Thread):
       lines = dict()
       lines[ 'lines' ] = 0
       lines[ 'blank' ] = 0
-      try:   
+      try:
         with codecs.open(filename, "r", encoding="utf-8") as f:
           for line in f:
             lines[ 'lines' ] += 1
@@ -199,3 +198,86 @@ class Miner(threading.Thread):
         bad_bad_guy = True
       finally:
         return lines
+"""
+Libs
+"""
+
+"""
+binaryornot.check
+-----------------
+__author__ = 'Audrey Roy'
+__email__ = 'audreyr@gmail.com'
+__version__ = '0.2.0'
+
+Main code for checking if a file is binary or text.
+"""
+
+
+def is_binary(filename):
+    """
+    :param filename: File to check.
+    :returns: True if it's a binary file, otherwise False.
+    """
+    chunk = get_starting_chunk(filename)
+    return is_binary_string(chunk)
+
+
+"""
+binaryornot.helpers
+-------------------
+
+Helper utilities used by BinaryOrNot.
+"""
+def print_as_hex(s):
+    """
+    Print a string as hex bytes.
+    """
+
+    print(":".join("{0:x}".format(ord(c)) for c in s))
+
+
+def get_starting_chunk(filename):
+    """
+    :param filename: File to open and get the first little chunk of.
+    :returns: Starting chunk of bytes.
+    """
+    # Ensure we open the file in binary mode
+    with open(filename, 'rb') as f:
+        chunk = f.read(1024)
+        return chunk
+
+
+def is_binary_string(bytes_to_check):
+    """
+    :param bytes: A chunk of bytes to check.
+    :returns: True if appears to be a binary, otherwise False.
+    """
+    # Uses a simplified version of the Perl detection algorithm,
+    # based roughly on Eli Bendersky's translation to Python:
+    # http://eli.thegreenplace.net/2011/10/19/perls-guess-if-file-is-text-or-binary-implemented-in-python/
+
+    # This is biased slightly more in favour of deeming files as text
+    # files than the Perl algorithm, since all ASCII compatible character
+    # sets are accepted as text, not just utf-8
+
+    # Empty files are considered text files
+    if not bytes_to_check:
+        return False
+
+    # Check for NUL bytes first
+    if b'\x00' in bytes_to_check:
+        return True
+
+    # Now check for a high percentage of ASCII control characters
+    printable_extended_ascii = b'\n\r\t\f\b'
+    if bytes is str:
+        # Python 2 means we need to invoke chr() explicitly
+        printable_extended_ascii += b''.join(map(chr, range(32, 256)))
+    else:
+        # Python 3 means bytes accepts integer input directly
+        printable_extended_ascii += bytes(range(32, 256))
+
+    # Binary if control chars are > 30% of the string
+    control_chars = bytes_to_check.translate(None, printable_extended_ascii)
+    nontext_ratio = float(len(control_chars)) / float(len(bytes_to_check))
+    return nontext_ratio > 0.3
