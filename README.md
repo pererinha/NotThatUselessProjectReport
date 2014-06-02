@@ -8,7 +8,11 @@ I hope you you find this plugin helpful.
 
 ### Installation
 
-For manual installation, run the following script in the Sublime Text terminal ```(ctrl+`)``` which utilizes ```git clone```.
+You can install via [**Sublime Package Control**](http://wbond.net/sublime_packages/package_control) plugin.
+Just open "Package Control: Install Package" in your Command Palette and search for "Not That Useless Project Report".
+
+
+For **manual installation**, run the following script in the Sublime Text terminal ```(ctrl+`)``` which utilizes ```git clone```.
 
 ```python
 import os; path=sublime.packages_path(); (os.makedirs(path) if not os.path.exists(path) else None); window.run_command('exec', {'cmd': ['git', 'clone', 'https://github.com/pererinha/NotThatUselessProjectReport', 'NotThatUselessProjectReport'], 'working_dir': path})
